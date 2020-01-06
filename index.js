@@ -7,21 +7,29 @@ admin.initializeApp({
 })
 
 const firebaseDatabase = admin.firestore();
-//test collection
-//8l2y30RPgtXwjppAQeJm --> January 1, 2020 at 11:29AM
-//dbdTVrHuD55e2Xt6HLF7 --> January 1, 2020 at 11:29AM
-//pKSqnWF8bpmSbBijbv0f --> TimeStamp for Jan 1st at 00:00
+
+// I needed a function to convert IFTTT's date string below with firestores built in Timestamp object
+// January 1, 2020 at 12:00AM
 
 
-firebaseDatabase.collection("test-collection").get()
+const convertStringToTimeStamp = (db, dbName, stringParam) =>
+    db.collection(dbName).get()
     .then(snapshot => {
         snapshot.forEach(doc => {
-            if (typeof(doc.data()["OccuredAt"]) == 'string') {
-               console.log(`This document has a date that is a string`)
-               console.log(doc.data()["OccuredAt"])
+            if (typeof(doc.data()[stringParam]) == 'string') {
+                console.log(`Found ${doc.id} with date ${doc.data()[stringParam]}`)
+               const newDoc = doc.data();
+
+               const originalDate = doc.data()[stringParam];
+               const AMPM = originalDate.slice(-2);
+               const trimmedDate = originalDate.substring(0, originalDate.length - 2).replace(" at", "");
+               const clientDate = new Date(trimmedDate + " " + AMPM);
+               newDoc[stringParam] = admin.firestore.Timestamp.fromDate(clientDate);
+               db.collection(dbName).doc(doc.id).set(newDoc);
             }
         })
     })
     .catch(err => {
         console.log('Error getting documents', err);
       });
+
