@@ -1,9 +1,9 @@
-require('dotenv').config()
+import { resolve } from "path";
+import { config } from "dotenv";
+config({ path: resolve(__dirname, "../.env.test") })
 
-module.exports.IFTTT_WEBHOOK_KEY = process.env.IFTTT_WEBHOOK_KEY;
-
-module.exports.FIREBASE_DATABASE_URL = process.env.DATABASE_URL;
-module.exports.FIREBASE_SERVICE_ACCOUNT = {
+export const FIREBASE_DATABASE_URL = process.env.FIREBASE_DATABASE_URL;
+export const FIREBASE_SERVICE_ACCOUNT : any = {
     type: process.env.TYPE,
     project_id: process.env.PROJECT_ID,
     private_key_id: process.env.PRIVATE_KEY_ID,
