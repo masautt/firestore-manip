@@ -1,5 +1,7 @@
 require('dotenv').config()
 
+module.exports.IFTTT_WEBHOOK_KEY = process.env.IFTTT_WEBHOOK_KEY;
+
 module.exports.FIREBASE_DATABASE_URL = process.env.DATABASE_URL;
 module.exports.FIREBASE_SERVICE_ACCOUNT = {
     type: process.env.TYPE,
