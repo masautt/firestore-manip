@@ -8,6 +8,8 @@ export const iftttDateStr_to_firebaseTimestamp = (dateStr: string) : Timestamp =
     return (admin.firestore.Timestamp.fromDate(clientDate));
 }
 
+export const dateObj_to_firebaseTimestamp = (date : Date) : Timestamp => admin.firestore.Timestamp.fromDate(date);
+
 export const dateObj_to_iftttDateStr = (date : Date) : string => {
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     const month = months[date.getMonth()];
