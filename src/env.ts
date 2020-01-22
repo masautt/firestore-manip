@@ -1,6 +1,6 @@
 import { resolve } from "path";
 import { config } from "dotenv";
-config({ path: resolve(__dirname, "../.env.test") })
+config({ path: resolve(__dirname, "../.env") })
 
 export const FIREBASE_DATABASE_URL = process.env.FIREBASE_DATABASE_URL;
 export const FIREBASE_SERVICE_ACCOUNT : any = {

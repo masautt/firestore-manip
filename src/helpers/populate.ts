@@ -1,7 +1,7 @@
-import { Firestore } from "@google-cloud/firestore";
+import { db } from "../admin";
 import { dateObj_to_iftttDateStr, dateObj_to_firebaseTimestamp } from "./timestamps";
 
-export const populate_iftttDateStrs = (db : Firestore, collection : string, limit : number = 10, dateStrParam : string = "OccuredAt") => {
+export const populate_iftttDateStrs = (collection : string, limit : number = 10, dateStrParam : string = "occuredAt") => {
     const epochs = genEpochs(limit);
     console.log(`Generated ${limit} documents with dateStrParamm ${dateStrParam}`)
     epochs.map(epoch => {
@@ -9,14 +9,15 @@ export const populate_iftttDateStrs = (db : Firestore, collection : string, limi
         const date = dateObj_to_iftttDateStr(new Date(epoch));
         db.collection(collection).add({
             [dateStrParam] : date,
-            name : name
+            name : name,
+            sSID : "yea"
         }).then(ref => {
             console.log(`Added document ${ref.id} with name ${name} and date ${date}`);
         })
     })
 }
 
-export const populate_FirebaseTimestamps = (db : Firestore, collection : string, limit : number, dateStrParam : string) => {
+export const populate_FirebaseTimestamps = (collection : string, limit : number, dateStrParam : string) => {
     const epochs = genEpochs(limit);
     epochs.map(epoch => {
         db.collection(collection).add({
